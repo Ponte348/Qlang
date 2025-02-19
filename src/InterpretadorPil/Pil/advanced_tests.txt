@@ -1,0 +1,1 @@
+loop while n = 2 do writeln "Igual a dois" end;

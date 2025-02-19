@@ -1,0 +1,208 @@
+convertedValues ::= [
+   "integer":"int",
+   "boolean":"boolean",
+   "text":"String",
+   "fraction":"Fraction",
+   "real":"double",
+   "question":"QuestionBase",
+   "code": "Code",
+   default:"null"
+]
+
+booleanValue ::= [
+   "true":"true",
+   "false":"false",
+   default:"null"
+]
+
+module(name, statements) ::= <<
+import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import Classes.*;
+public class <name> {
+   public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      Result result = new Result();
+      Questionnaire questionnaire = new Questionnaire();
+      System.out.println("Welcome to the Questionnaire");
+      <stats(statements)>
+
+      scanner.close();
+   }
+   public static String readPrompt(Scanner scanner, String prompt) {
+      System.out.print(prompt);
+      return scanner.nextLine();
+}
+}
+>>
+
+stats(stat) ::= <<
+<if(stat)><stat; separator="\n"><endif>
+>>
+
+print(value) ::= <<
+System.out.print(<value>);
+>>
+
+println(value) ::= <<
+System.out.println(<value>);
+>>
+
+declareVariable(type, variable) ::= <<
+<convertedValues.(type)> <variable>;
+>>
+
+createHoleQuestion(name, ID, children) ::= <<
+HoleQuestion <name> = new HoleQuestion(result, "<ID>");
+questionnaire.addQuestion(<name>);
+<children; separator="\n">
+
+>>
+
+addTerm(children) ::= <<
+<children; separator="\n">
+>>
+
+addQuestionText(name, text) ::= <<
+<name>.addQuestionText(<text>);
+>>
+
+addSolution(name, answer) ::= <<
+<name>.addSolution(<answer>);
+>>
+
+instanceOfQuestion(variable, question) ::= <<
+<variable> = <question>.cloneQuestion();
+>>
+
+assignment(variable, text) ::= <<
+<variable> = <text>
+>>
+executeQuestion(variable, question) ::= <<
+<question>.execute(scanner);
+>>
+
+createOpenQuestion(name, ID, children) ::= <<
+OpenQuestion <name> = new OpenQuestion(result, "<ID>");
+questionnaire.addQuestion(<name>);
+<children; separator="\n">
+
+>>
+
+createCodeOpenQuestion(name, ID,children) ::= <<
+CodeOpenQuestion <name> = new CodeOpenQuestion(result, "<ID>");
+questionnaire.addQuestion(<name>);
+<children; separator="\n">
+>>
+
+exportResults(name) ::= <<
+try (BufferedWriter writer = new BufferedWriter(new FileWriter(<name>))) {
+    result.export(writer);
+} catch (IOException e) {
+    e.printStackTrace();
+}     
+>>
+
+
+ifcondition(assign1, type, var) ::= <<
+<assign1>
+<type>
+if ("<type>" == "text") {
+    <var>.setName(<assign1>);
+} else {
+    <var>.setID(<assign1>);
+}       
+>>
+
+CodeManager(name) ::= <<
+CodeManager <name> = new CodeManager("<name>");
+>>
+
+Code(name, codeString) ::= <<
+Code <name> = new Code("<codeString>");
+>>
+
+questionnaire(name) ::= <<
+Questionnaire <name> = new Questionnaire("<name>");
+>>
+
+createCodeHoleQuestion(name,ID,children) ::= <<
+CodeHoleQuestion <name> = new CodeHoleQuestion(result, "<ID>");
+questionnaire.addQuestion(<name>);
+<children; separator="\n">
+>>
+
+addCode(var, code) ::= <<
+<var>.addCode("<code>");
+>>
+
+addGrade(var, string) ::= <<
+<var>.addGrade("<string>");
+>>
+
+addLines(var, int) ::= <<
+<var>.addLines(<int>);
+>>
+
+readTerm(var, text) ::= <<
+System.out.print(<text>); 
+<var> = scanner.nextLine().trim();
+>>
+
+setName(var) ::= <<
+result.setName(<var>);
+>>
+
+setID(var) ::= <<
+result.setID(<var>);
+>>
+
+integerTerm(value) ::= <<
+Integer.parseInt(<value>);
+>>
+
+textTerm(value) ::= <<
+<value>.toString();
+>>
+
+readPrompt(var, text) ::= <<
+<var> = readPrompt(scanner, <text>);
+>>
+
+readPromptNoAssign(text) ::= <<
+readPrompt(scanner, <text>)
+>>
+
+simpleCode(code) ::= <<
+System.out.println(<code>;
+>>
+
+defineCode(nome, codeString, var) ::= <<
+Code <nome> = new Code(<codeString>, "<nome>");
+>>
+
+executeCode(code) ::= <<
+<code>.execute();
+>>
+
+addCodeHoleSolution(var, answer, grade) ::= <<
+<var>.addSolution(<answer>, <grade>);
+>>
+
+addCodeHoleSolutionWithLines(var, answer, grade, lines) ::= <<
+<var>.addSolution(<answer>, <grade>, <lines>);
+>>
+
+usesCode(var, code) ::= <<
+<var>.addCode(<code>);
+>>
+
+executeCodeWithPrint(code) ::= <<
+System.out.println(<code>.execute());
+>>
+
+executeWithArgument(question, argument) ::= <<
+<question>.execute(<argument>);
+>>

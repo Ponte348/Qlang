@@ -1,0 +1,6 @@
+if n + 2 = 0 then 
+    writeln "even"; 
+    write "linha" 
+else
+    writeln "odd" 
+end;

@@ -1,0 +1,9 @@
+-- Procedural Imperative Language -- conditional
+
+n := integer(read "Number: "); -- type conversion: type(expression)
+write "Number ",n, " is ";
+if n % 2 = 0 then -- = is the comparison operator (as in math)
+   writeln "even"
+else
+   writeln "odd"
+end;
