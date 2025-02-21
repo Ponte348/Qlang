@@ -4,7 +4,7 @@
 
 ## Constituição dos grupos e participação individual global
 
-![cooltext459928447639171-removebg-preview](https://github.com/detiuaveiro/qlang-q05/assets/149102355/d46fc2f5-8b47-4a33-8b1b-4aa515cbcf2f)
+![cooltext459928447639171-removebg-preview](https://github.com/detiuaveiro/qlang-q05/assets/149102355/d46fc2f5-8b47-4a33-8b1b-4aa515cbcf2f)  
 Nota final: 14.7
 
 | NMec | Nome | Participação |
